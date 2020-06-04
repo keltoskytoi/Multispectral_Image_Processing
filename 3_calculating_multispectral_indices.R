@@ -1,16 +1,25 @@
                               #+++PREPARATIONS+++#
+
 #+++removing everything from R
 rm(list=ls())
-#+++ load library
-source("F:/Multispectral_Image_Processing/library.R")
-#+++ Creating a folder structure
-projRootDir <- "F:/Multispectral_Image_Processing"
 
+#+++ preparing system-independent environment
+if(Sys.info()["sysname"] == "Windows"){
+  projRootDir <- "C:/Users/lwraase/Documents/bale/"
+} else {
+  projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing"
+}
+
+#+++ Creating a folder structure
 paths<-link2GI::initProj(projRootDir = projRootDir,
                          projFolders = c("raw_data/", "orig_data/", "corr_data/",
                                          "output_RGB/", "output_multi/") ,
                          global = TRUE,
                          path_prefix = "path_")
+
+#+++ load library
+source("/home/keltoskytoi/Multispectral_Image_Processing/library.R")
+
 #+++set the working directory where you want to have your results
 setwd(path_output_multi)
 
