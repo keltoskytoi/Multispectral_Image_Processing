@@ -1,21 +1,33 @@
                               #+++PREPARATIONS+++#
 #+++removing everything from R
 rm(list=ls())
+
 #+++installing packages from Github
 devtools::install_github("r-spatial/link2GI", ref = "master", dependencies = TRUE, force = TRUE)
 #only in case that you need to install  glcm:
 devtools::install_github("azvoleff/glcm")
 devtools::install_github("gisma/uavRst", ref = "master", dependencies = TRUE, force= TRUE)
+
+#+++ preparing system-independent environment
+if(Sys.info()["sysname"] == "Windows"){
+  projRootDir <- "C:/Users/lwraase/Documents/bale/"
+} else {
+  projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing"
+}
+
 #+++ load library
-source("F:/Multispectral_Image_Processing/library.R")
+source("/home/keltoskytoi/Multispectral_Image_Processing/library.R")
+
 #+++ Creating a folder structure
-projRootDir <- "F:/Multispectral_Image_Processing"
+#projRootDir <- "F:/Multispectral_Image_Processing"
 
 paths<-link2GI::initProj(projRootDir = projRootDir,
                          projFolders = c("raw_data/", "orig_data/", "corr_data/",
                                          "output_RGB/", "output_multi/") ,
                          global = TRUE,
                          path_prefix = "path_")
+
+
 #+++set the working directory where your data calculated in Agisoft is
 setwd(path_raw_data)
                                    #+++#
