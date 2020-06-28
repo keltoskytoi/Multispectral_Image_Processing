@@ -49,8 +49,13 @@ ortho_out=paste0(path_orig_data, substr(tiff_list, 1, nchar(tiff_list)-4), "_re0
 #set the geographical projection and thhe resolution (3 cm) of the output file
 for (i in 1:length(tiff_list)){
   gdalwarp(tiff_list[i], ortho_out[i], overwrite=TRUE, of = "GTiff", t_srs = "EPSG:32632", 
-           tr= "0.03 0.03")
+           tr= "0.03 0.03", output_raster=TRUE)
 }
+
+##palyibg##_old
+fdgfdjgdf <- raster("Hohensolms_05062018_RED_2.tif")
+crs(fdgfdjgdf)
+
 
                       #3.2.2e CONTROL YOUR RESULTS####
 test <- stack(paste0(path_orig_data, "Hohensolms_05062018_RGB_re03.tif"))

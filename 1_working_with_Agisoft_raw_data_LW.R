@@ -6,42 +6,28 @@ rm(list=ls())
 if(Sys.info()["sysname"] == "Windows"){
   projRootDir <- "C:/Users/lwraase/Documents/AG_UAV/Chapter_UAV_Workflow/Multispectral_Image_Processing/"
 } else {
-  projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing"
+  projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing/"
 }
-
-filebase<-"C:/Users/lwraase/Documents/AG_UAV/Chapter_UAV_Workflow/Multispectral_Image_Processing/"
-
 
 #+++ load library
 #source( "your/path/to/")
-source(paste0(projRootDir,"library.R"))
+source(paste0(projRootDir,"0_library_preprocessing.R"))
+
 #+++installing packages from Github
 # do all package loading from the lib script
 
-library(rgdal)
-
-
 #+++ Creating a folder structure
-# paths<-link2GI::initProj(projRootDir = projRootDir,
-#                          projFolders = c("raw_data/", "orig_data/", "corr_data/",
-#                                          "output_RGB/", "output_multi/") ,
-#                          global = TRUE,
-#                          path_prefix = "path_")
-# 
-path_corr_data<-paste0(filebase,"corr_data/")
-path_orig_data<-paste0(filebase,"orig_data/")
-path_output_multi<-paste0(filebase,"output_multi/")
-path_output_RGB<-paste0(filebase,"output_RGB/")
-path_raw_data<-paste0(filebase,"raw_data/")
-path_tmp<-paste0(filebase,"tmp/")
+paths<-link2GI::initProj(projRootDir = projRootDir,
+                         projFolders = c("raw_data/", "orig_data/", "corr_data/",
+                                         "output_RGB/", "output_multi/") ,
+                         global = TRUE,
+                         path_prefix = "path_")
 
-#+++set the working directory where your data calculated in Agisoft is
-#dont switch the working directory
-#use paste0
-#setwd(path_raw_data)
-                                   #+++#
-#gdal moved to libs
-                     h              #+++#
+
+                                 #+++#
+#if you use Windows:
+setwd(projRootDir)
+                                 #+++#
 
 #EXERCISE 3.2.2. BRING ALL ORTHOIMAGES TO THE SAME RESOLUTION AND PROJECTION####
  
@@ -49,10 +35,9 @@ path_tmp<-paste0(filebase,"tmp/")
 #+++++Note that changing the resolution frequently also changes the origin+++++#
 
 #put all files which end to tif in the working directory in a list
-tiff_list <- list.files(path_raw_data,pattern = "*tif")
+tiff_list <- list.files(path_raw_data, pattern = "*tif")
 
-testimage<-raster(paste0(path_raw_data,"Hohensolms_05062018_GRE.tif"))
-
+#testimage<-raster(paste0(path_raw_data,"Hohensolms_05062018_GRE.tif"))
 
  
 #????           #set the directory of the result and the suffix of the file
