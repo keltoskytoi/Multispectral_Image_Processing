@@ -1,8 +1,10 @@
                   ####Install packages and depencies####
                   
-#start installing packages with: 
+#start installing packages from CRAN: 
 install.packages("devtools")
-install.packages("raster")                  
+install.packages(c("raster", "gdalUtils","rgdal", "mapview", "sp", "spData",
+                   "sf", "tools", "RStoolbox", "rgeos", "lattice", "ggplot2", 
+                   "RColorBrewer", "signal", "rootSolve"))                  
 
 #install packages from github:
 devtools::install_github("r-spatial/link2GI", ref = "master", dependencies = TRUE, force = TRUE)

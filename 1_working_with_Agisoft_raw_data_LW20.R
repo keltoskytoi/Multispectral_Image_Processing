@@ -4,19 +4,10 @@ rm(list=ls())
 
 #+++ preparing system-independent environment
 if(Sys.info()["sysname"] == "Windows"){
-  projRootDir <- "C:/Users/lwraase/Documents/AG_UAV/Chapter_UAV_Workflow/Multispectral_Image_Processing/"
+  projRootDir <- "D:/Multispectral_Image_Processing/"
 } else {
-  projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing"
+  projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing/"
 }
-
-filebase<-"C:/Users/lwraase/Documents/AG_UAV/Chapter_UAV_Workflow/Multispectral_Image_Processing/"
-
-
-#+++ load library
-#source( "your/path/to/")
-source(paste0(projRootDir,"lib_prepro_LW.R"))
-#+++installing packages from Github
-# do all package loading from the lib script
 
 #+++ Creating a folder structure
 paths<-link2GI::initProj(projRootDir = projRootDir,
@@ -24,6 +15,12 @@ paths<-link2GI::initProj(projRootDir = projRootDir,
                                          "output_RGB/", "output_multi/") ,
                          global = TRUE,
                          path_prefix = "path_")
+
+#+++ load library
+#source( "your/path/to/")
+source(paste0(projRootDir,"lib_prepro_LW.R"))
+#+++installing packages from Github
+# do all package loading from the lib script
 
                                    #+++#
 #if you use windows
@@ -39,10 +36,10 @@ setwd(projRootDir)
 tiff_list = list.files(path_raw_data, full.names = TRUE, pattern = glob2rx("*.tif"))
 
 newproj <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
-for (i in 1:length(test_block)){
-  r <- raster(test_block[1])
+for (i in 1:length(tiff_list)){
+  r <- raster(tiff_list[i])
     prj <- projectRaster(r, crs=newproj, method = 'bilinear',res = 0.03, 
-                         filename = paste0(path_orig_data,names(r),"_testprj.tif")
+                         filename = paste0(path_orig_data,names(r),"_prj.tif")
                          ,overwrite=TRUE)
     }
 
@@ -63,8 +60,8 @@ proj4string(msk) <- newproj
 
 #crop the files in the list to the same extent!
 for (i in 1:length(tiff_prj_list)){
-  r <- raster(tiff_prj_list[1])
-  cr <- crop(r,msk,filename = paste0(path_orig_data,names(r),"_cr.tif")
+  r <- raster(tiff_prj_list[i])
+  cr <- crop(r,msk,filename = paste0(path_corr_data,names(r),"_cr.tif")
                        ,overwrite=TRUE)
  }
 

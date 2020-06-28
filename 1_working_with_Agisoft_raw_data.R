@@ -12,7 +12,7 @@ devtools::install_github("gisma/uavRst", ref = "master", dependencies = TRUE, fo
 if(Sys.info()["sysname"] == "Windows"){
   projRootDir <- "C:/Users/lwraase/Documents/bale/"
 } else {
-  projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing"
+  projRootDir <- "D:/Multispectral_Image_Processing"
 }
 
 #+++ Creating a folder structure
@@ -23,13 +23,13 @@ paths<-link2GI::initProj(projRootDir = projRootDir,
                          path_prefix = "path_")
 
 #+++ load library
-source("/home/keltoskytoi/Multispectral_Image_Processing/library.R")
+source("D:/Multispectral_Image_Processing/library.R")
 
 #+++set the working directory where your data calculated in Agisoft is
 setwd(path_raw_data)
                                    #+++#
 #+++checking GDAL installation#
-gdal_setInstallation()()
+gdal_setInstallation()
 valid_install <- !is.null(getOption("gdalUtils_gdalPath"))
 if(require(raster) && require(rgdal) && valid_install)
 getGDALVersionInfo()
