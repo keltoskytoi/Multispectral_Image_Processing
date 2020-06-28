@@ -29,7 +29,7 @@ source("/home/keltoskytoi/Multispectral_Image_Processing/library.R")
 setwd(path_raw_data)
                                    #+++#
 #+++checking GDAL installation#
-gdal_setInstallation()
+gdal_setInstallation()()
 valid_install <- !is.null(getOption("gdalUtils_gdalPath"))
 if(require(raster) && require(rgdal) && valid_install)
 getGDALVersionInfo()
