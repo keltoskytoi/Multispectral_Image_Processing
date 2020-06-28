@@ -46,7 +46,7 @@ tiff_list <- dir(pattern = "*tif")
 #set the directory of the result and the suffix of the file
 ortho_out=paste0(path_orig_data, substr(tiff_list, 1, nchar(tiff_list)-4), "_re03.tif")
 
-#set the geographical projection and thhe rresolution (3 cm) of the output file
+#set the geographical projection and thhe resolution (3 cm) of the output file
 for (i in 1:length(tiff_list)){
   gdalwarp(tiff_list[i], ortho_out[i], overwrite=TRUE, of = "GTiff", t_srs = "EPSG:32632", 
            tr= "0.03 0.03")

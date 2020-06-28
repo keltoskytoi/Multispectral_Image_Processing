@@ -58,10 +58,11 @@ origin(NIR)
 origin(NIR) = c(0, 0)
 
 #REG
-
+origin(REG) = c(0, 0)
 #GREEN
-
-#REG
+origin(GREEN) = c(0, 0)
+#RED
+origin(RED) = c(0, 0)
 
 #4c Check the origin and the extent of some of the multispectral raster!
 extent(RED)
@@ -96,6 +97,10 @@ writeRaster(TDVI, filename = "indices_multi_TDVI.tif", format= "GTiff", overwrit
 MSR <- RED/((NIR/RED + 1)**0.5)
 writeRaster(MSR, filename = "indices_multi_MSR.tif", format= "GTiff", overwrite = TRUE)
 
+#or
+
+MSR2 <- ((NIR/RED)-1)/(sqrt(NIR/RED)+1)
+
 #5c - EVI (Enhanced Vegetation Index)
 EVI <- 2.5*((NIR - RED)/(NIR + (6 * RED - 7.5 * blue + 1)))
 writeRaster(EVI, filename = "indices_multi_EVI.tif", format= "GTiff", overwrite = TRUE)
@@ -104,7 +109,7 @@ writeRaster(EVI, filename = "indices_multi_EVI.tif", format= "GTiff", overwrite 
 TVI <- sqrt(NDVI + 0.5)
 writeRaster(TVI, filename = "indices_multi_TVI.tif", format= "GTiff", overwrite = TRUE)
 
-#5e - BAI (Bruned Area Index) 
+#5e - BAI (Burned Area Index) 
 BAI <- 1/(((0.1 - RED)**2) + ((0.06 - NIR)**2))
 writeRaster(BAI, filename = "indices_multi_BAI.tif", format= "GTiff", overwrite = TRUE)
 
@@ -126,12 +131,12 @@ writeRaster(RDVI, filename = "indices_multi_RDVI.tif", format= "GTiff", overwrit
 
 #5l - RVI (Ratio Vegetation Index)
 
-#5m - GRVI Green Ratio Vegetation Index
+#5m - GRVI (Green Ratio Vegetation Index)
 
 #5n - VIN (Vegetation Index Number)
 
 #5o - SR (Simple Ratio)
 
-#5p - IRG(Red Green Ratio Index)
+#5p - IRG (Red Green Ratio Index)
 
 #5q - IPVI (Infrared Percentage Vegetation Ratio) 

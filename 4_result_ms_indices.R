@@ -22,7 +22,7 @@ writeRaster(GNDVI, filename = "indices_multi_GNDVI.tif", format= "GTiff", overwr
 RVI <- RED/NIR
 writeRaster(RVI, filename = "indices_multi_RVI.tif", format= "GTiff", overwrite = TRUE)
 
-#5j - GRVI Green Ratio Vegetation Index
+#5j - GRVI (Green Ratio Vegetation Index)
 GRVI <- NIR/GREEN
 writeRaster(GRVI, filename = "indices_multi_GRVI.tif", format= "GTiff", overwrite = TRUE)
 
@@ -34,7 +34,7 @@ writeRaster(VIN, filename = "indices_multi_VIN.tif", format= "GTiff", overwrite 
 SR <- (NIR/RED)
 writeRaster(SR, filename = "indices_multi_SR.tif", format= "GTiff", overwrite = TRUE)
 
-#5m - IRG(Red Green Ratio Index)
+#5m - IRG (Red Green Ratio Index)
 IRG <- (RED - GREEN)
 writeRaster(IRG, filename = "indices_multi_IRG.tif", format= "GTiff", overwrite = TRUE)
 
