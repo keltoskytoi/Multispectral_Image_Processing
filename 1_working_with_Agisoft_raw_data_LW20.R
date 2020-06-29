@@ -9,6 +9,15 @@ if(Sys.info()["sysname"] == "Windows"){
   projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing/"
 }
 
+filebase<-"C:/Users/lwraase/Documents/AG_UAV/Chapter_UAV_Workflow/Multispectral_Image_Processing/"
+
+
+#+++ load library
+#source( "your/path/to/")
+source(paste0(projRootDir,"0_library_preprocessing.R"))
+#+++installing packages from Github
+# do all package loading from the lib script
+
 #+++ Creating a folder structure
 paths<-link2GI::initProj(projRootDir = projRootDir,
                          projFolders = c("raw_data/", "orig_data/", "corr_data/",
@@ -39,8 +48,7 @@ newproj <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
 for (i in 1:length(tiff_list)){
   r <- raster(tiff_list[i])
     prj <- projectRaster(r, crs=newproj, method = 'bilinear',res = 0.03, 
-                         filename = paste0(path_orig_data,names(r),"_prj.tif")
-                         ,overwrite=TRUE)
+                         filename = paste0(path_orig_data, names(r), "_prj.tif"), overwrite=TRUE)
     }
 
                       #3.2.2e CONTROL YOUR RESULTS####
@@ -51,7 +59,8 @@ plot(test)
 
         #EXERCISE 3.2.3. CROP THE ORTHOIMAGES TO THE SAME EXTENT####
 
-#put all files which end to tif in the working directory in a list
+#put all files which end to tif in the working directory in a list, which has 
+#.tif format!
 
 tiff_prj_list = list.files(path_orig_data, full.names = TRUE, pattern = glob2rx("*.tif"))
 

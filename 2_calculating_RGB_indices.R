@@ -9,25 +9,6 @@ if(Sys.info()["sysname"] == "Windows"){
 } else {
   projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing"
 }
-
-#+++ Creating a folder structure
-paths<-link2GI::initProj(projRootDir = projRootDir,
-                         projFolders = c("raw_data/", "orig_data/", "corr_data/",
-                                         "output_RGB/", "output_multi/") ,
-                         global = TRUE,
-                         path_prefix = "path_")
-
-#+++ load library
-source("/home/keltoskytoi/Multispectral_Image_Processing/library.R")
-
-#+++set the working directory where you want to have your results
-setwd(path_output_RGB)
-                                
-#+++checking GDAL installation#
-gdal_setInstallation()
-valid_install <- !is.null(getOption("gdalUtils_gdalPath"))
-if(require(raster) && require(rgdal) && valid_install)
-getGDALVersionInfo()
                                      #+++#
 
                     #EXERCISE 3.3. CALCULATING RGB INDICES####
