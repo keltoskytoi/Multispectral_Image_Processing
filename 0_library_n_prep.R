@@ -10,8 +10,9 @@ if(length(libraries[!inst]) > 0) install.packages(libraries[!inst])
 # Load library packages into session if required
 lapply(libraries, require, character.only=TRUE)
 
-#+++checking GDAL installation#
+
+#+++checking GDAL installation on your computer#
 gdalUtils::gdal_setInstallation()
 valid_install <- !is.null(getOption("gdalUtils_gdalPath"))
 if(require(raster) && require(rgdal) && valid_install)
-  getGDALVersionInfo()
+getGDALVersionInfo()

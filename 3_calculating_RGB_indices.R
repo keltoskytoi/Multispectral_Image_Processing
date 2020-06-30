@@ -1,28 +1,46 @@
-                             #+++PREPARATIONS+++#
+                    #EXERCISE 2.3. CALCULATING RGB INDICES####
+            #calculating indices from RGB images with the uavRst package#
 
-#+++removing everything from R
-rm(list=ls())
+                    
+#2.3.3 Read the RGB image and separate the bands####
 
-#+++ preparing system-independent environment
-if(Sys.info()["sysname"] == "Windows"){
-  projRootDir <- "C:/Users/lwraase/Documents/bale/"
-} else {
-  projRootDir <- "/home/keltoskytoi/Multispectral_Image_Processing"
-}
-                                     #+++#
+Hohensolms_05062018_RGB <- stack(paste0(path_orig_data, "Hohensolms_05062018_RGB_prj.tif"))
 
-                    #EXERCISE 3.3. CALCULATING RGB INDICES####
-            #calculating indices from RGB images with the uavRst package
+#crop the image to a specific extent! 
 
-#3.3.3 Read the RGB image and separate the bands####
+#create a mask of the size of the region of interest (ROI)!
+msk<- as(extent(465996.9899999051121995, 466134.1799999050563201, 
+                5612216.0399723947048187, 5612299.3499723942950368), 
+                "SpatialPolygons")
 
-Hohensolms_05062018_RGB <- stack(paste0(path_corr_data, "Hohensolms_05062018_RGB_re03_cr.tif"))
+#give the mask the projection set before
+newproj <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
+proj4string(msk) <- newproj
 
-red <- Hohensolms_05062018_RGB[[1]]
-green <- Hohensolms_05062018_RGB[[2]]
-blue <- Hohensolms_05062018_RGB[[3]]
+#crop the RGB file in the folder to the size of the mask and and write the 
+#result in the folder corr_data!
 
-#3.3.4 calucltate RGB indeces####
+Hohensolms_05062018_RGB_cr <- crop(Hohensolms_05062018_RGB, msk, 
+                                   filename = paste0(path_corr_data, 
+                                   "Hohensolms_05062018_RGB_prj_cr.tif"),
+                                   overwrite=TRUE)
+
+
+                      #2.2.3e CONTROL YOUR RESULTS####
+test2 <- stack(paste0(path_corr_data, "Hohensolms_05062018_RGB_prj_cr.tif"))
+plot(test2)
+extent(test2)
+res(test2)
+origin(test2)
+
+
+#separate the bands of the cropped RGB image####
+
+red <- Hohensolms_05062018_RGB_cr[[1]]
+green <- Hohensolms_05062018_RGB_cr[[2]]
+blue <- Hohensolms_05062018_RGB_cr[[3]]
+
+#2.3.4 calucltate RGB indeces####
 
 #4a Calculate indices VVI, VARI, NDTI and RI
 indices_RGB_1 <- uavRst::rgb_indices(red,
