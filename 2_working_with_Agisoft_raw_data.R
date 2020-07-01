@@ -14,28 +14,14 @@ newproj <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
 
 #give a for loop the tif-list, the projection and the new resolution and write 
 #the result in the folder orig_data!
-for (i in 1:length(tiff_list)){
-  r <- raster(tiff_list[i])
+for (ij in 1:length(tiff_list)) {
+   r <- raster(tiff_list[ij])
   prj <- projectRaster(r, crs=newproj, method = 'bilinear', res = 0.03, 
                        filename = paste0(path_orig_data,  names(r), "_res_prj.tif"),
                        format="GTiff", bylayer=TRUE,
                        overwrite=TRUE)
 }
 
-#to test: raster or stack 
-
-#trying out#
-#r <- stack(tiff_list[5])
-#prj <- projectRaster(r, crs=newproj, method = 'bilinear', res = 0.03, 
-#                       filename = paste0(path_orig_data, format="GTiff", "test.tif"), 
-#                       overwrite=TRUE)
-
-#test <- stack(paste0(path_orig_data, "test.tif"))
-#res(test)
-#plot(test)
-#does work for the RBG layyer but not for all together
-
-  
 #2.2.2e CONTROL YOUR RESULTS####
 #check your results
 test <- stack(paste0(path_orig_data, "Hohensolms_05062018_RGB_res_prj.tif"))
@@ -64,7 +50,7 @@ proj4string(msk) <- newproj
 #of the mask and and write the result in the folder corr_data!
 for (i in 1:length(tiff_prj_list)){
   r <- raster(tiff_prj_list[i])
-  cr <- crop(r, msk, filename = paste0(path_corr_data,names(r),"_cr.tif"),
+  cr <- crop(r, msk, filename = paste0(path_corr_data, names(r),"_cr.tif"),
              overwrite=TRUE)
 }
 

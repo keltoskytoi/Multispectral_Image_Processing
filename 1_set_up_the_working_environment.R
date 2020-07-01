@@ -1,6 +1,6 @@
                                 #+++PREPARATIONS+++#
 
-#+++removing everything from R
+#+++removing everything from R, to get a clear working environment
 rm(list=ls())
 
 #+++ preparing a system-independent environment
@@ -19,8 +19,10 @@ source(paste0(projRootDir,"0_library_n_prep.R"))
 
 #+++ Creating a folder structure
 paths<-link2GI::initProj(projRootDir = projRootDir,
-                         projFolders = c("raw_data/", "orig_data/", "corr_data/",
-                                         "output_RGB/", "output_multi/") ,
+                         projFolders = c("RGB_raw/", "Spect_raw/", 
+                                         "RGB_corr/", "Spect_corr/",
+                                         "RGB_crp/", "Spect_crp/",
+                                         "indices_RGB/", "indices_spect/") ,
                          global = TRUE,
                          path_prefix = "path_")
 
