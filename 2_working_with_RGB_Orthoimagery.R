@@ -1,65 +1,65 @@
                             #EXERCISE 2.2.1.#### 
-     #BRING THE RGB ORTHOIMAGE TO THE DESIRED RESOLUTION AND PROJECTION#
+     #BRING THE RGB ORTHOMOSAIC TO THE DESIRED RESOLUTION AND PROJECTION#
 
-#To be on the safe side first we will bring the RGB image to the our desired 
+#To be on the safe side first we will bring the RGB image to the desired 
 #resolution & projection 
 #+Note that changing the resolution frequently also changes the origin of a 
-#raster file
+#raster file!
 
-#read the raw RGB Agisoft Orthophoto (raster)
+#First read the RGB Agisoft orthomosaic (raster) output from it's folder
 RGB_raw <- stack(paste0(path_RGB_raw, "Hohensolms_05062018_RGB.tif"))
 
-#set the CRS/EPSG code of the desired projection
+#Set the CRS/EPSG code of the desired projection
 Hohensolms_proj <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
 
-#project the raster with the desired projection
+#Project the raster with the desired projection and save it to a variable
 RGB_corr <- projectRaster(RGB_raw, crs=Hohensolms_proj, 
                           method = 'bilinear', res = 0.03) 
 
-#write the result in a file in the RGB_corr folder!
+#Write the result in a file in the RGB_corr folder!
 writeRaster(RGB_corr, paste0(path_RGB_corr, "Hohensolms_05062018_RGB_res_prj.tif"),
             format="GTiff", overwrite=TRUE)  
               
 #2.2.1e CONTROL YOUR RESULTS####
-
-#read the raster file you just reprojected and resampled to 3 cms! 
+#Read the raster file you just reprojected and resampled to 3 cms
 test <- stack(paste0(path_RGB_corr, "Hohensolms_05062018_RGB_res_prj.tif"))
 
-#check and plot the information of the data file! make sure it has three bands!
+#Check and plot the information of the raster file! Make sure it has three bands!
 test
 plot(test)
 
 #test the resolution!
 res(test)
 
-                            #EXERCISE 2.2.2. ####
-                   #CROP THE ORTHOIMAGES TO THE SAME EXTENT#
-    #crop the Orthoimage which projection and resoltuion you just set to the 
-                                #desired extent! 
+                            #EXERCISE 2.2.2.####
+                #CROP THE RGB ORTHOMOSAIC TO A SPECIFIC EXTENT#
+    #Crop the orthomosaic which projection and resoltuion you just set to a 
+                                #specific extent! 
 
-#first create a mask of the size of the region of interest (ROI)!
+#First create a mask of the size of the region of interest (ROI)
 mask_Hohensolms<- as(extent(465996.9899999051121995, 466134.1799999050563201, 
                             5612216.0399723947048187, 5612299.3499723942950368), 
                             "SpatialPolygons")
 
-#set the projection of the mask you set the Orthoimage/raster before
+#Assign the same projection of the RGB Orthomosaic to the ROI mask you created before
 proj4string(mask_Hohensolms) <- Hohensolms_proj
 
-#crop the projected and resampled RGB raster to the size the mask!
+#Crop the projected and resampled RGB raster you created in the previous 
+#exercise to the size the mask you defined before
 Hohensolms_RGB_cropped <- crop(RGB_corr, mask_Hohensolms)
                  
-#write the result 
+#Export the result in the folder RGB_crp
 writeRaster(Hohensolms_RGB_cropped, paste0(path_RGB_crp, "Hohensolms_05062018_RGB_res_prj_cr.tif"),
             format="GTiff", overwrite=TRUE)    
 
 #2.2.2e CONTROL YOUR RESULTS####
 
-#read the raster file you just cropped out! 
+#Read the raster file you just cropped out! 
 RGB_Hohensolms <- stack(paste0(path_RGB_crp, "Hohensolms_05062018_RGB_res_prj_cr.tif"))
-#read and plot the information of the data file! make sure it has three bands!
+#Print and plot the information of the data file 
 RGB_Hohensolms
 plot(RGB_Hohensolms)
-#test the extent of the file!
+#test the extent of the file
 extent(RGB_Hohensolms)
 #class      : Extent 
 #xmin       : 465997 
@@ -75,7 +75,8 @@ res(RGB_Hohensolms)
                                     #***#
 
                              #EXERCISE 2.2.3.### 
-               #Calculating RGB indices with the uavRst package####
+             #CALCULATING RGB INDICES WITH THE uavRst PACKAGE####
+
 
 #2.3.1 Separate the bands of the cropped RGB image####
 #with the [[]] you can access the bands of a raster layer
@@ -87,13 +88,13 @@ blue <- RGB_Hohensolms[[3]]
 #2.3.2 calucltate RGB indices####
 
 #a Calculate indices VVI, VARI, NDTI and RI
-indices_RGB_1 <- uavRst::rgb_indices(red,
+indices_RGB <- uavRst::rgb_indices(red,
                                      green,
                                      blue,
-                                     rgbi = c("VVI", "VARI", "NDTI", "RI"))
+                                     rgbi = c("BI", "RI", "VVI"))
 
 #b View attributes of the raster image
-indices_RGB_1
+indices_RGB
 #class      : RasterStack 
 #dimensions : 2777, 4574, 12701998, 4  (nrow, ncol, ncell, nlayers)
 #resolution : 0.03, 0.03  (x, y)
@@ -108,46 +109,5 @@ indices_RGB_1
 #file in the correct folder on your computer
 
 #c Save the calculated indices as GeoTiffs!
-writeRaster(indices_RGB_1, filename = "indices_RGB_1.tif", 
-            format="GTiff", bylayer=TRUE, overwrite=TRUE)
-#indices_RGB_1_1 = VVI; indices_RGB_1_2 = VARI; 
-#indices_RGB_1_3 = NDTI; indices_RGB_1_4 = RI
-
-#d Calculate indices SCI, BI, SI and HI
-indices_RGB_2 <-uavRst::rgb_indices(red,
-                                    green,
-                                    blue,
-                                    rgbi = c("SCI", "BI", "SI", "HI")) 
-
-#e View attributes of the raster image to test if the calculation went well
-indices_RGB_2 
-
-#f Save the calculated indices a GeoTiffs!
-writeRaster(indices_RGB_2, filename = "indices_RGB_2.tif", 
-            format="GTiff", bylayer=TRUE, overwrite=TRUE)
-
-#g Calculate indices TGI, GLI, NGRDI and GRVI
-indices_RGB_3 <- uavRst::rgb_indices(red,
-                                     green,
-                                     blue,
-                                     rgbi = c("TGI", "GLI", "NGRDI", "GRVI"))
-
-#h View attributes of the raster image to test if the calculation went well
-indices_RGB_3
-
-#i Save the claculated indices a GeoTiffs!
-writeRaster(indices_RGB_3, filename = "indices_RGB_3.tif", 
-            format="GTiff", bylayer=TRUE, overwrite=TRUE)
-
-#j Calculate indices GLAI, HUE, CI, SAT and SHP
-indices_RGB_4 <- uavRst::rgb_indices(red,
-                                     green,
-                                     blue,
-                                     rgbi = c("GLAI", "HUE", "CI", "SAT", "SHP")) 
-
-#k View attributes of the raster image to test if the calculation went well
-indices_RGB_4
-
-#l Save the claculated indices a GeoTiffs!
-writeRaster(indices_RGB_4, filename = "indices_RGB_4.tif", 
+writeRaster(indices_RGB, paste0(path_indices_RGB, filename = names(indices_RGB), "_RGB.tif"), 
             format="GTiff", bylayer=TRUE, overwrite=TRUE)

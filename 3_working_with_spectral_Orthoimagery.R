@@ -1,23 +1,23 @@
                               #EXERCISE 2.3.1.#### 
-     #BRING THE SPECTRAL ORTHOIMAGES TO THE DESIRED RESOLUTION AND PROJECTION#
+     #BRING THE SPECTRAL ORTHOMOSAICS TO THE DESIRED RESOLUTION AND PROJECTION#
 
-#To be on the safe side we bring all spectral orthoimages to the same resolution
-# & projection
+#To be on the safe side we bring all spectral orthoimosaics to the desired (and same) 
+#resolution & projection
 #+Note that changing the resolution frequently also changes the origin of a 
-#raster file
+#raster file!
 
-#Firstput all files which end to .tif in the folder containing the output of 
-#Agisoft (raw_data) in a list!
+#First put all raster files which end to .tif from the folder Spect_raw
+#containing the spectral orthomosaics of your Agisoft output in a list!
 tiff_list = list.files(path_Spect_raw, full.names = TRUE, 
                        pattern = glob2rx("*.tif"))
 
-#set the CRS/EPSG code of the desired projection
+#Set the CRS/EPSG code of the desired projection
 Hohensolms_proj <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
 
-#give to a for-loop the tif-list, the projection and the new resolution and write 
-#the result in the folder orig_data!
-for (ij in 1:length(tiff_list)) {
-  r <- raster(tiff_list[ij])
+#Give to a for-loop the tif-list of the spectral orthomosaics, the projection 
+#and the desired resolution and write the result in the folder Spect_corr!
+for (i in 1:length(tiff_list)) {
+  r <- raster(tiff_list[i])
   prj <- projectRaster(r, crs=Hohensolms_proj, method = 'bilinear', res = 0.03, 
                        filename = paste0(path_Spect_corr, names(r), "_res_prj.tif"),
                        format="GTiff", overwrite=TRUE)
@@ -27,7 +27,7 @@ for (ij in 1:length(tiff_list)) {
 #read one of the raster files you just reprojected and resampled to 3 cms! 
 test2 <- stack(paste0(path_Spect_corr, "Hohensolms_05062018_REG_res_prj.tif"))
 
-#check and plot the information of the data file! 
+#check and plot the information of the raster file! Make sure 
 test2
 plot(test2)
 
@@ -35,25 +35,29 @@ plot(test2)
 res(test2)
 
                           #EXERCISE 2.3.2.#### 
-               #CROP THE ORTHOIMAGES TO THE SAME EXTENT#
-
+          #CROP THE SPECTRAL ORTHOMOSAICS TO THE SAME SPECIFIC EXTENT#
     #crop the spectral orthoimages which projection and resoltuion you just set 
-                 #to the extent of the RGB orthoimages!  
+                 #to the same extent of the RGB orthomosaic!  
 
-#put all files which end to .tif in the folder orig_data in a list!
+
+#First put all raster files which end to .tif from the folder Spect_corr
+#containing the spectral orthomosaics you just repprojected and resampled in a list!
 tiff_prj_list = list.files(path_Spect_corr, full.names = TRUE, 
                            pattern = glob2rx("*.tif"))
 
-#create a mask of the size of the region of interest (ROI)!
+#create a mask of the size of the region of interest (ROI) 
+#- the same as for the RGB orthomosaic
 mask_Hohensolms<- as(extent(465996.9899999051121995, 466134.1799999050563201, 
                             5612216.0399723947048187, 5612299.3499723942950368), 
                             "SpatialPolygons")
 
-#give the mask the projection set before
+#Assing the same projection of the spectral Orthomosaics to the ROI mask you created before
 proj4string(mask_Hohensolms) <- Hohensolms_proj
 
-#give a for loop the tif-list, crop all raster files in the folder to the size 
-#of the mask and and write the result in the folder corr_data!
+
+#Give to a for-loop the tif-list of the reprojected and resampled spectral 
+#orthomosaics, and crop them to the size of the mask you defined before and export
+#the result in the folder Spect_crp
 for (i in 1:length(tiff_prj_list)){
   r <- raster(tiff_prj_list[i])
   cr <- crop(r, mask_Hohensolms, filename = paste0(path_Spect_crp, names(r),"_cr.tif"),
@@ -62,8 +66,10 @@ for (i in 1:length(tiff_prj_list)){
 
 #2.2.3e CONTROL YOUR RESULTS####
 
-#read the spectral raster file you just cropped out!
+#Read one of the spectral raster files you just cropped out. 
 GREEN <- stack(paste0(path_Spect_crp, "Hohensolms_05062018_GRE_res_prj_cr.tif"))
+#Print and plot the information of the data file. Make sure it has three bands. 
+GREEN
 plot(GREEN)
 #test the extent of the file!
 extent(GREEN)
