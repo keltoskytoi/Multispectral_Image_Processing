@@ -5,7 +5,7 @@ rm(list=ls())
 
 #+++ preparing a system-independent environment
 #you have to change the *projRootDir* to the place on your computer where you have 
-#evtractedthe folder containing the data for this chapter!
+#extracted the folder containing the data for this chapter!
 
 if(Sys.info()["sysname"] == "Windows"){
   projRootDir <- "D:/Multispectral_Image_Processing/"

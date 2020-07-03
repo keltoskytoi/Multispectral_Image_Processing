@@ -26,7 +26,7 @@ origin(GREEN) = c(0, 0)
 origin(RED) = c(0, 0)
 
 
-#4c Check the extent, resolution and origin of the multispectral raster!
+#4b Check the extent, resolution and origin of the multispectral raster!
 extent(RED)
 #class      : Extent 
 #xmin       : 465997 

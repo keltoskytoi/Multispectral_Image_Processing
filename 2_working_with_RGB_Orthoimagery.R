@@ -56,10 +56,10 @@ writeRaster(Hohensolms_RGB_cropped, paste0(path_RGB_crp, "Hohensolms_05062018_RG
 
 #Read the raster file you just cropped out! 
 RGB_Hohensolms <- stack(paste0(path_RGB_crp, "Hohensolms_05062018_RGB_res_prj_cr.tif"))
-#Print and plot the information of the data file 
+#Print and plot the information of the data file. Make sure it has three bands. 
 RGB_Hohensolms
 plot(RGB_Hohensolms)
-#test the extent of the file
+#Check the extent of the file
 extent(RGB_Hohensolms)
 #class      : Extent 
 #xmin       : 465997 
@@ -67,7 +67,7 @@ extent(RGB_Hohensolms)
 #ymin       : 5612216 
 #ymax       : 5612299
 
-#test the resolution of the file!
+#Check the resolution of the file
 res(RGB_Hohensolms)
 
             #All seems fine, let's move on to calculation indices!#
@@ -77,23 +77,21 @@ res(RGB_Hohensolms)
                              #EXERCISE 2.2.3.### 
              #CALCULATING RGB INDICES WITH THE uavRst PACKAGE####
 
-
-#2.3.1 Separate the bands of the cropped RGB image####
-#with the [[]] you can access the bands of a raster layer
-
+#2.2.3.1 Separate the bands of the reprojected, resammpled and cropped RGB image####
+#Note: with [[]] you can access the different bands
 red <- RGB_Hohensolms[[1]]
 green <- RGB_Hohensolms[[2]]
 blue <- RGB_Hohensolms[[3]]
 
-#2.3.2 calucltate RGB indices####
+#2.2.3.2 calucltate RGB indices####
 
-#a Calculate indices VVI, VARI, NDTI and RI
+#a Calculate indices BI, RI and VVI
 indices_RGB <- uavRst::rgb_indices(red,
                                      green,
                                      blue,
                                      rgbi = c("BI", "RI", "VVI"))
 
-#b View attributes of the raster image
+#b View attributes of the raster stack
 indices_RGB
 #class      : RasterStack 
 #dimensions : 2777, 4574, 12701998, 4  (nrow, ncol, ncell, nlayers)
