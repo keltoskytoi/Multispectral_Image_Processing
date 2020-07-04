@@ -1,14 +1,14 @@
-# Library packages
-libraries<-c("gdalUtils", "glcm","raster","rgdal", "mapview", "sp", "spData",
+#Pacakges in the library 
+library<-c("gdalUtils", "glcm","raster","rgdal", "mapview", "sp", "spData",
              "sf", "tools", "RStoolbox", "rgeos", "lattice", "ggplot2", 
              "RColorBrewer", "signal", "rootSolve", "link2GI")
 
 # Install CRAN packages if needed
-inst <- libraries %in% installed.packages()
-if(length(libraries[!inst]) > 0) install.packages(libraries[!inst])
+inst <- library %in% installed.packages()
+if(length(library[!inst]) > 0) install.packages(library[!inst])
 
 # Load library packages into session if required
-lapply(libraries, require, character.only=TRUE)
+lapply(library, require, character.only=TRUE)
 
 #+++checking GDAL installation on your computer#
 gdalUtils::gdal_setInstallation()
