@@ -14,7 +14,7 @@ if(Sys.info()["sysname"] == "Windows"){
 }
 
 #+++ load library
-#the source file enables you to install activate pacakges in one run
+#The source file enables you to install and activate pacakges in one run
 source(paste0(projRootDir,"0_library_n_prep.R"))
 
 #+++ Creating a folder structure
