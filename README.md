@@ -20,4 +20,4 @@ Rfile which cleans the memory of R, then creates and sets a folder structure on 
 Rfile which prepares an RGB orthoimages for the estimation of RGB indices.
 
 #### 3_working_with_spectral_orthoimagery.R
-Rfiles which prepares spectral orthoimages for the estimation of spectral indices.
+Rfile which prepares spectral orthoimages for the estimation of spectral indices.
