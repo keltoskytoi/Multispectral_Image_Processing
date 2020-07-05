@@ -3,7 +3,7 @@ This is the code for the Chapter "Creating RGB and multispectral indices using U
 
 For the installation of R, RStudio and the packages needed to complete this project please see the wiki! 
 
-The .R files are to be treated in the folliwng oder: 
+The .R files are to be treated in the following oder: 
 
 
 #### 00_install_packages.R 
