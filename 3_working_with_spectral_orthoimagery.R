@@ -1,7 +1,7 @@
                               #EXERCISE 2.3#### 
      #2.3A BRING THE SPECTRAL ORTHOMOSAICS TO THE DESIRED RESOLUTION AND PROJECTION#
 
-#To be on the safe side we bring all spectral orthoimosaics to the desired (and same) 
+#To be on the safe side we bring all spectral orthomosaics to the desired (and same) 
 #resolution & projection
 #+Note that changing the resolution frequently also changes the origin of a 
 #raster file+
@@ -18,6 +18,7 @@ Hohensolms_proj <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
 #2.3.A3. Give to a for-loop the tif-list of the spectral orthomosaics, the 
 #projection, the projection method and the resolution of 0.03 meters & write 
 #the result in the folder Spect_corr
+#Keep in mind that it takes some time!
 for (i in 1:length(tiff_list)) {
   r <- raster(tiff_list[i])
   prj <- projectRaster(r, crs=Hohensolms_proj, method = 'bilinear', res = 0.03, 
@@ -36,7 +37,7 @@ res(test2)
 
                           
     #2.3.B.CROP THE SPECTRAL ORTHOMOSAICS TO THE SAME SPECIFIC EXTENT####
-    #crop the spectral orthoimages which projection and resoltuion you just set 
+    #crop the spectral orthoimages which projection and resolution you just set 
                  #to the same extent of the RGB orthomosaic!  
 
 #2.3.B1. First put all raster files which end to .tif from the folder Spect_corr
@@ -81,11 +82,13 @@ extent(GREEN)
 res(test2)
 #0.03 0.03
 
-#All seems fine, let's move on to calculation indices!#
+            #All seems fine, let's move on to calculation indices!#
+
+                                 #***#
 
     #EXERCISE 2.3C #RESET THE ORIGIN OF THE SPECTRAL ORTHOMOSAICS####
 
-#2.3.C1 Read all the spectral the Orthomosaics you just reprojected, resampled 
+#2.3.C1 Read all the spectral the orthomosaics you just reprojected, resampled 
 #and cropped in the previous exercise####
 
 NIR <- stack(paste0(path_Spect_crp, "Hohensolms_05062018_NIR_res_prj_cr.tif"))
@@ -95,12 +98,12 @@ RED <- stack(paste0(path_Spect_crp, "Hohensolms_05062018_RED_res_prj_cr.tif"))
 
 #2.3.C2 Reset the origin of the different bands#### 
 #Because of the different capture conditions of the different sensors the 
-#spectral orthomosaics have different positions in space. You already preprojected, 
-#resampled and cropped the Orthomosaics. The last thing to do is to reset the 
+#spectral orthomosaics have different positions in space. You already reprojected, 
+#resampled and cropped the orthomosaics. The last thing to do is to reset the 
 #origin of each spectral band we wish to use, which is the point closest to (0, 0) 
 #that you could get if you moved from the corners of a Raster object toward 
 #the origin in steps of the x and y resolution. 
-#We have to reset the origin of the spectral Orthomosaics to the same value in 
+#We have to reset the origin of the spectral orthomosaics to the same value in 
 #order to be able to calculate indices. 
 #In the case of the RGB orthomosaic we did not have to reset the origin of the spectral 
 #bands because they are derived from the same sensor with the same specification 
@@ -199,3 +202,9 @@ writeRaster(GCI, paste0(path_indices_spect, "GCI_spect.tif"), format= "GTiff",
 MSR2 <- ((NIR/RED)-1)/((sqrt(NIR/RED))+1)
 writeRaster(MSR2, paste0(path_indices_spect, "MSR2_spect.tif"), format= "GTiff", 
             overwrite = TRUE)
+
+                                   #***#
+
+                 #Well done, you just completed this chapter!#
+
+                                  #***#

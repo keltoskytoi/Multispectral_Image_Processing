@@ -13,6 +13,7 @@ RGB_raw <- stack(paste0(path_RGB_raw, "Hohensolms_05062018_RGB.tif"))
 Hohensolms_proj <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
 
 #Project the raster with the desired projection and save it to a variable
+#Keep in mind that it takes some time!
 RGB_corr <- projectRaster(RGB_raw, crs=Hohensolms_proj, 
                           method = 'bilinear', res = 0.03) 
 
@@ -33,7 +34,7 @@ res(test)
 
                             #EXERCISE 2.2.2.####
                 #CROP THE RGB ORTHOMOSAIC TO A SPECIFIC EXTENT#
-    #Crop the orthomosaic which projection and resoltuion you just set to a 
+    #Crop the orthomosaic which projection and resolution you just set to a 
                                 #specific extent! 
 
 #First create a mask of the size of the region of interest (ROI)
@@ -41,13 +42,16 @@ mask_Hohensolms<- as(extent(465996.9899999051121995, 466134.1799999050563201,
                             5612216.0399723947048187, 5612299.3499723942950368), 
                             "SpatialPolygons")
 
-#Assign the same projection of the RGB Orthomosaic to the ROI mask you created before
+#Assign the same projection of the RGB orthomosaic to the ROI mask you created before
 proj4string(mask_Hohensolms) <- Hohensolms_proj
 
 #Crop the projected and resampled RGB raster you created in the previous 
 #exercise to the size the mask you defined before
 Hohensolms_RGB_cropped <- crop(RGB_corr, mask_Hohensolms)
-                 
+          
+#plot the cropped RGB raster
+plot(Hohensolms_RGB_cropped)
+       
 #Export the result in the folder RGB_crp
 writeRaster(Hohensolms_RGB_cropped, paste0(path_RGB_crp, "Hohensolms_05062018_RGB_res_prj_cr.tif"),
             format="GTiff", overwrite=TRUE)    
@@ -70,7 +74,7 @@ extent(RGB_Hohensolms)
 #Check the resolution of the file
 res(RGB_Hohensolms)
 
-            #All seems fine, let's move on to calculation indices!#
+            #All seems fine, let's move on to calculate indices!#
 
                                     #***#
 
@@ -87,9 +91,9 @@ blue <- RGB_Hohensolms[[3]]
 
 #a Calculate indices BI, RI and VVI
 indices_RGB <- uavRst::rgb_indices(red,
-                                     green,
-                                     blue,
-                                     rgbi = c("BI", "RI", "VVI"))
+                                   green,
+                                   blue,
+                                   rgbi = c("BI", "RI", "VVI"))
 
 #b View attributes of the raster stack
 indices_RGB
