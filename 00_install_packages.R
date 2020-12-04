@@ -1,4 +1,4 @@
-                  ####Install packages and depencies####
+                  ####Install packages and dependencies####
                   
 #start installing packages from CRAN: 
 install.packages("devtools")
@@ -16,6 +16,7 @@ devtools::install_github("gisma/uavRst", ref = "master",
 devtools::install_github("azvoleff/glcm")
 
 #if you have problems installing uavRst - please install these two packages from the archive!
-#if you have further problems please check the github page of uavRst
+#If you have further problems installing uavRst, read the error messages carefully 
+#and follow the advice (install other missing packages e.g) and/or consult the Github page of uavRst
 devtools::install_url('http://cran.r-project.org/src/contrib/Archive/spatial.tools/spatial.tools_1.6.2.tar.gz')
 devtools::install_url('http://cran.r-project.org/src/contrib/Archive/velox/velox_0.2.0.tar.gz')
